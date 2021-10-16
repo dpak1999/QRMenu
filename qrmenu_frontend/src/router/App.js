@@ -14,7 +14,7 @@ const App = () => {
           <Route exact path="/login" component={() => <Login />} />
         </Switch>
       </BrowserRouter>
-      <ToastContainer position="top-left" closeOnClick autoClose={3000} />
+      <ToastContainer position="top-right" closeOnClick autoClose={3000} />
     </>
   );
 };
