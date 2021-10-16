@@ -1,7 +1,9 @@
 /** @format */
 
+import MainLayout from '../layouts/MainLayout';
+
 const Login = () => {
-  return <div>Login</div>;
+  return <MainLayout>Login</MainLayout>;
 };
 
 export default Login;
