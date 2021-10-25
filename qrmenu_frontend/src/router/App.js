@@ -6,6 +6,7 @@ import { AuthProvider } from '../context/AuthContext';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Places from '../pages/Places';
+import Register from '../pages/Register';
 import PrivateRoute from './PrivateRoute';
 
 const App = () => {
@@ -15,6 +16,9 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={() => <Home />} />
           <Route exact path="/login" component={() => <Login />} />
+          <Route exact path="/register" component={() => <Register />} />
+
+          {/* protected routes */}
           <PrivateRoute exact path="/places">
             <Places />
           </PrivateRoute>

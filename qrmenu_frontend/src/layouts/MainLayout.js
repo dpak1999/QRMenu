@@ -13,6 +13,10 @@ const MainLayout = ({ children }) => {
     history.replace('/login');
   };
 
+  const onRegister = () => {
+    history.replace('/register');
+  };
+
   const onSignOut = () => {
     auth.signOut();
     history.push('/login');
@@ -33,7 +37,10 @@ const MainLayout = ({ children }) => {
           {auth.token ? (
             <Nav.Link onClick={onSignOut}>Logout</Nav.Link>
           ) : (
-            <Nav.Link onClick={onSignIn}>Login</Nav.Link>
+            <>
+              <Nav.Link onClick={onSignIn}>Login</Nav.Link>
+              <Nav.Link onClick={onRegister}>Register</Nav.Link>
+            </>
           )}
         </Nav>
       </Navbar>
