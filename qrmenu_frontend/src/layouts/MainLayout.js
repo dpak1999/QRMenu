@@ -1,13 +1,21 @@
 /** @format */
 
+import { useContext } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const MainLayout = ({ children }) => {
   const history = useHistory();
+  const auth = useContext(AuthContext);
 
   const onSignIn = () => {
     history.replace('/login');
+  };
+
+  const onSignOut = () => {
+    auth.signOut();
+    history.push('/login');
   };
 
   const goToPlaces = () => {
@@ -22,7 +30,11 @@ const MainLayout = ({ children }) => {
           <Nav.Link onClick={goToPlaces}>Places</Nav.Link>
         </Nav>
         <Nav className="flex-grow-1 justify-content-end">
-          <Nav.Link onClick={onSignIn}>Login</Nav.Link>
+          {auth.token ? (
+            <Nav.Link onClick={onSignOut}>Logout</Nav.Link>
+          ) : (
+            <Nav.Link onClick={onSignIn}>Login</Nav.Link>
+          )}
         </Nav>
       </Navbar>
       <Container>{children}</Container>

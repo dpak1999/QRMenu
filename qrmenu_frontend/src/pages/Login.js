@@ -1,17 +1,28 @@
 /** @format */
 
-import { useState } from 'react';
-import { Button, Card, Col, Form, Row } from 'react-bootstrap';
+import { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button, Card, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { login } from '../apis';
 import MainLayout from '../layouts/MainLayout';
+import AuthContext from '../context/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const history = useHistory();
+  const auth = useContext(AuthContext);
+
   const onClick = () => {
-    login(username, password);
+    auth.signIn(username, password, () => history.replace('/places'));
   };
+
+  useEffect(() => {
+    if (auth.token) {
+      history.replace('/places');
+    }
+  }, [history, auth.token]);
 
   return (
     <MainLayout>
@@ -43,8 +54,24 @@ const Login = () => {
                 />
               </Form.Group>
 
-              <Button variant="standard" block onClick={onClick}>
-                Login
+              <Button
+                variant="standard"
+                block
+                onClick={onClick}
+                disabled={auth.loading}
+              >
+                {auth.login ? (
+                  <Spinner
+                    variant="standard"
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  'Login'
+                )}
               </Button>
             </Card.Body>
           </Card>
