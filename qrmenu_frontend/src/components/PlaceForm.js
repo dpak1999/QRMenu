@@ -4,6 +4,7 @@ import { useState, useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { addPlace } from '../apis';
 import AuthContext from '../context/AuthContext';
+import ImageDropZone from './ImageDropZone';
 
 const PlaceForm = ({ onDone }) => {
   const [name, setName] = useState('');
@@ -36,12 +37,7 @@ const PlaceForm = ({ onDone }) => {
 
       <Form.Group>
         <Form.Label>Image</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
+        <ImageDropZone value={image} onChange={setImage} />
       </Form.Group>
 
       <Button variant="standard" block onClick={onClick}>

@@ -62,3 +62,16 @@ export const fetchPlaces = (token) => {
 export const addPlace = (data, token) => {
   return request('/api/places/', { data, token, method: 'POST' });
 };
+
+export const uploadImage = (image) => {
+  const formData = new FormData();
+  formData.append('file', image);
+  formData.append('upload_preset', 'qr_menu');
+
+  return fetch('https://api.cloudinary.com/v1_1/snazzycave/image/upload', {
+    method: 'POST',
+    body: formData,
+  }).then((response) => {
+    return response.json();
+  });
+};
