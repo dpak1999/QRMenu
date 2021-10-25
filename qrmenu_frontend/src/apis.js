@@ -34,9 +34,6 @@ export const login = (username, password) => {
           throw new Error(e);
         });
     })
-    .then((json) => {
-      toast(JSON.stringify(json), { type: 'success' });
-    })
     .catch((e) => {
       toast(e.message, { type: 'error' });
     });
