@@ -1,9 +1,10 @@
 /** @format */
 
 import { useContext, useEffect, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { fetchPlaces } from '../apis';
+import PlaceForm from '../components/PlaceForm';
 import AuthContext from '../context/AuthContext';
 import MainLayout from '../layouts/MainLayout';
 
@@ -26,8 +27,24 @@ const Place = styled.div`
   }
 `;
 
+const AddPlaceButton = styled.div`
+  border: 1px dashed grey;
+  height: 200px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: white;
+  :hover {
+    background-color: #fbfbfb;
+  }
+`;
+
 const Places = () => {
   const [places, setPlaces] = useState([]);
+  const [show, setShow] = useState(false);
 
   const auth = useContext(AuthContext);
 
@@ -38,6 +55,14 @@ const Places = () => {
     }
   };
 
+  const onHide = () => setShow(false);
+  const onShow = () => setShow(true);
+
+  const onDone = () => {
+    onFetchPlaces();
+    onHide();
+  };
+
   useEffect(() => {
     onFetchPlaces();
   }, []);
@@ -45,6 +70,13 @@ const Places = () => {
   return (
     <MainLayout>
       <h3>My Places</h3>
+
+      <Modal show={show} onHide={onHide} centered>
+        <Modal.Body>
+          <PlaceForm onDone={onDone} />
+        </Modal.Body>
+      </Modal>
+
       <Row>
         {places.map((place) => (
           <Col key={place.id} lg={4}>
@@ -54,6 +86,9 @@ const Places = () => {
             </Place>
           </Col>
         ))}
+        <Col lg={4}>
+          <AddPlaceButton onClick={onShow}>Add new place</AddPlaceButton>
+        </Col>
       </Row>
     </MainLayout>
   );
