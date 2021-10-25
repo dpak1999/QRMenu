@@ -54,3 +54,7 @@ export const register = (username, password) => {
     method: 'POST',
   });
 };
+
+export const fetchPlaces = (token) => {
+  return request('/api/places', { token });
+};
