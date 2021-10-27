@@ -10,14 +10,19 @@ import {
 } from 'react-bootstrap';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
-import { addCategory } from '../apis';
-
+import { addCategory, addMenuItems } from '../apis';
 import AuthContext from '../context/AuthContext';
+import ImageDropZone from './ImageDropZone';
 
 const MenuItemForm = ({ place, onDone }) => {
   const [categoryName, setCategoryName] = useState('');
   const [categoryFormShow, setCategoryFormShow] = useState(false);
   const [category, setCategory] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [isAvailable, setIsAvailable] = useState(true);
 
   const target = useRef(null);
   const auth = useContext(AuthContext);
@@ -37,8 +42,37 @@ const MenuItemForm = ({ place, onDone }) => {
     }
   };
 
+  const OnAddMenuItems = async () => {
+    const res = await addMenuItems(
+      {
+        place: place.id,
+        category,
+        name,
+        price,
+        description,
+        image,
+        is_available: isAvailable,
+      },
+      auth.token
+    );
+
+    if (res) {
+      toast(`Menu item ${res.name} was created succesfully`, {
+        type: 'success',
+      });
+      setCategory('');
+      setName('');
+      setPrice('');
+      setDescription('');
+      setImage('');
+      setIsAvailable(true);
+      onDone();
+    }
+  };
+
   return (
     <div>
+      {/* categories form */}
       <Form.Group>
         <Form.Label>Category</Form.Label>
         <div className="d-flex align-items-center">
@@ -47,7 +81,7 @@ const MenuItemForm = ({ place, onDone }) => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option />
+            <option selected>Select Category</option>
             {place?.categories?.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
@@ -88,6 +122,50 @@ const MenuItemForm = ({ place, onDone }) => {
           </Overlay>
         </div>
       </Form.Group>
+      {/* menu items form */}
+      <Form.Group>
+        <Form.Label>Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>Price</Form.Label>
+        <Form.Control
+          type="number"
+          placeholder="Enter price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Description</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Image</Form.Label>
+        <ImageDropZone value={image} onChange={setImage} />
+      </Form.Group>
+      <Form.Group>
+        <Form.Check
+          type="checkbox"
+          label="Is Available"
+          onChange={(e) => setIsAvailable(e.target.checked)}
+          checked={isAvailable}
+        />
+      </Form.Group>
+      <Button block variant="standard" onClick={OnAddMenuItems}>
+        + Add Menu Item
+      </Button>
     </div>
   );
 };

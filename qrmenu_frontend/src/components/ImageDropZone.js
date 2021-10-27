@@ -39,11 +39,11 @@ const ImageDropZone = ({ value, onChange }) => {
     <DropZone {...getRootProps()}>
       <input {...getInputProps()} />
       {value ? (
-        <img src={value} />
+        <img src={value} alt="" />
       ) : loading ? (
         <Spinner variant="standard" animation="border" role="status" />
       ) : (
-        <span>Drag and drop image here, or click to select file</span>
+        <span>Drop image here or click to select file</span>
       )}
     </DropZone>
   );
