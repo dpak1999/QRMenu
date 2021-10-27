@@ -9,6 +9,7 @@ import MainLayout from '../layouts/MainLayout';
 import AuthContext from '../context/AuthContext';
 import { fetchPlace } from '../apis';
 import MenuItemForm from '../components/MenuItemForm';
+import MenuItem from '../components/MenuItem';
 
 const Panel = styled.div`
   background-color: white;
@@ -55,6 +56,19 @@ const Place = () => {
           <Panel>
             <MenuItemForm place={place} onDone={onFetchPlace} />
           </Panel>
+        </Col>
+
+        <Col md={8}>
+          {place?.categories?.map((category) => (
+            <div key={category.id} className="mb-5">
+              <h4 className="mr-2 mb-4 mb-0">
+                <strong>{category.name}</strong>
+              </h4>
+              {category.menu_items.map((item) => (
+                <MenuItem key={item.id} item={item} />
+              ))}
+            </div>
+          ))}
         </Col>
       </Row>
     </MainLayout>
