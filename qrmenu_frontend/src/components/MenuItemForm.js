@@ -1,28 +1,24 @@
 /** @format */
 
 import { useContext, useRef, useState } from 'react';
-import {
-  Button,
-  Form,
-  OverlayTrigger,
-  Overlay,
-  Popover,
-} from 'react-bootstrap';
+import { Button, Form, Overlay, Popover } from 'react-bootstrap';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { addCategory, addMenuItems } from '../apis';
 import AuthContext from '../context/AuthContext';
 import ImageDropZone from './ImageDropZone';
 
-const MenuItemForm = ({ place, onDone }) => {
+const MenuItemForm = ({ place, onDone, item = {} }) => {
   const [categoryName, setCategoryName] = useState('');
   const [categoryFormShow, setCategoryFormShow] = useState(false);
-  const [category, setCategory] = useState('');
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
-  const [isAvailable, setIsAvailable] = useState(true);
+  const [category, setCategory] = useState(item.category);
+  const [name, setName] = useState(item.name);
+  const [price, setPrice] = useState(item.price || 0);
+  const [description, setDescription] = useState(item.description);
+  const [image, setImage] = useState(item.image);
+  const [isAvailable, setIsAvailable] = useState(
+    item.is_available === undefined ? true : !!item.is_available
+  );
 
   const target = useRef(null);
   const auth = useContext(AuthContext);
