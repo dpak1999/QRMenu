@@ -1,6 +1,7 @@
 /** @format */
 
 import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Col, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { fetchPlaces } from '../apis';
@@ -47,6 +48,7 @@ const Places = () => {
   const [show, setShow] = useState(false);
 
   const auth = useContext(AuthContext);
+  const history = useHistory();
 
   const onFetchPlaces = async () => {
     const res = await fetchPlaces(auth.token);
@@ -80,7 +82,7 @@ const Places = () => {
       <Row>
         {places.map((place) => (
           <Col key={place.id} lg={4}>
-            <Place>
+            <Place onClick={() => history.push(`/places/${place.id}`)}>
               <div style={{ backgroundImage: `url(${place.image})` }}></div>
               <p>{place.name}</p>
             </Place>
