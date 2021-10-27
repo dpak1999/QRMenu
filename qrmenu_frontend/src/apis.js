@@ -75,3 +75,7 @@ export const uploadImage = (image) => {
     return response.json();
   });
 };
+
+export const fetchPlace = (id, token) => {
+  return request(`/api/places/${id}`, { token });
+};
