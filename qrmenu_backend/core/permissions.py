@@ -15,7 +15,7 @@ class PlaceOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.owner
+        return obj.place.owner == request.user
 
     def has_permission(self, request, view):
         try:

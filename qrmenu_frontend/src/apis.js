@@ -87,3 +87,7 @@ export const addCategory = (data, token) => {
 export const addMenuItems = (data, token) => {
   return request('/api/menu_items/', { data, token, method: 'POST' });
 };
+
+export const updateMenuItem = (id, data, token) => {
+  return request(`/api/menu_items/${id}`, { data, token, method: 'PATCH' });
+};
