@@ -79,3 +79,7 @@ export const uploadImage = (image) => {
 export const fetchPlace = (id, token) => {
   return request(`/api/places/${id}`, { token });
 };
+
+export const addCategory = (data, token) => {
+  return request('/api/categories/', { data, token, method: 'POST' });
+};
