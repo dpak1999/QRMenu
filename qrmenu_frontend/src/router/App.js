@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from '../context/AuthContext';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import Menu from '../pages/Menu';
 import Place from '../pages/Place';
 import Places from '../pages/Places';
 import Register from '../pages/Register';
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path="/" component={() => <Home />} />
           <Route exact path="/login" component={() => <Login />} />
           <Route exact path="/register" component={() => <Register />} />
+          <Route exact path="/menu/:id/:table" component={() => <Menu />} />
 
           {/* protected routes */}
           <PrivateRoute exact path="/places/:id">
