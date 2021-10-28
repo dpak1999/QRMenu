@@ -2,12 +2,18 @@
 
 import { useEffect, useContext, useState } from 'react';
 import { IoMdArrowBack } from 'react-icons/io';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MainLayout from '../layouts/MainLayout';
 import AuthContext from '../context/AuthContext';
-import { fetchPlace } from '../apis';
+import {
+  fetchPlace,
+  removeCategory,
+  removeMenuItem,
+  removePlace,
+} from '../apis';
 import MenuItemForm from '../components/MenuItemForm';
 import MenuItem from '../components/MenuItem';
 
@@ -39,6 +45,30 @@ const Place = () => {
     }
   };
 
+  const onRemovePlace = () => {
+    const c = window.confirm('Are you sure?');
+
+    if (c) {
+      removePlace(params.id, auth.token).then(onBack);
+    }
+  };
+
+  const onRemoveCategory = (id) => {
+    const c = window.confirm('Are you sure?');
+
+    if (c) {
+      removeCategory(id, auth.token).then(onFetchPlace);
+    }
+  };
+
+  const onRemoveMenuitem = (id) => {
+    const c = window.confirm('Are you sure?');
+
+    if (c) {
+      removeMenuItem(id, auth.token).then(onFetchPlace);
+    }
+  };
+
   useEffect(() => {
     onFetchPlace();
   }, []);
@@ -53,6 +83,9 @@ const Place = () => {
                 <IoMdArrowBack size={25} color="black" />
               </Button>
               <h3 className="mb-0 ml-2 mr-2">{place.name}</h3>
+              <Button variant onClick={onRemovePlace}>
+                <AiOutlineDelete size={25} color="red" />
+              </Button>
             </div>
           </div>
         </Col>
@@ -66,9 +99,14 @@ const Place = () => {
         <Col md={8}>
           {place?.categories?.map((category) => (
             <div key={category.id} className="mb-5">
-              <h4 className="mr-2 mb-4 mb-0">
-                <strong>{category.name}</strong>
-              </h4>
+              <div className="d-flex align-items-center mb-4">
+                <h4 className="mr-2 mb-0">
+                  <strong>{category.name}</strong>
+                </h4>
+                <Button variant onClick={() => onRemoveCategory(category.id)}>
+                  <AiOutlineDelete size={25} color="red" />
+                </Button>
+              </div>
               {category.menu_items.map((item) => (
                 <MenuItem
                   key={item.id}
@@ -77,6 +115,7 @@ const Place = () => {
                     setSelectedItem(item);
                     showModal();
                   }}
+                  onRemove={() => onRemoveMenuitem(item.id)}
                 />
               ))}
             </div>

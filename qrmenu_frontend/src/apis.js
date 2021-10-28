@@ -91,3 +91,15 @@ export const addMenuItems = (data, token) => {
 export const updateMenuItem = (id, data, token) => {
   return request(`/api/menu_items/${id}`, { data, token, method: 'PATCH' });
 };
+
+export const removePlace = (id, token) => {
+  return request(`/api/places/${id}`, { token, method: 'DELETE' });
+};
+
+export const removeCategory = (id, token) => {
+  return request(`/api/categories/${id}`, { token, method: 'DELETE' });
+};
+
+export const removeMenuItem = (id, token) => {
+  return request(`/api/menu_items/${id}`, { token, method: 'DELETE' });
+};
