@@ -13,6 +13,7 @@ import {
   removeCategory,
   removeMenuItem,
   removePlace,
+  updatePlace,
 } from '../apis';
 import MenuItemForm from '../components/MenuItemForm';
 import MenuItem from '../components/MenuItem';
@@ -71,6 +72,18 @@ const Place = () => {
 
     if (c) {
       removeMenuItem(id, auth.token).then(onFetchPlace);
+    }
+  };
+
+  const onUpdatePlace = async (tables) => {
+    const res = await updatePlace(
+      place.id,
+      { number_of_tables: tables },
+      auth.token
+    );
+
+    if (res) {
+      setPlace(res);
     }
   };
 
@@ -146,7 +159,12 @@ const Place = () => {
         </Modal.Body>
       </Modal>
 
-      <QrCodeModal show={showQr} onHide={hideQrModal} place={place} />
+      <QrCodeModal
+        show={showQr}
+        onHide={hideQrModal}
+        place={place}
+        onUpdatePlace={onUpdatePlace}
+      />
     </MainLayout>
   );
 };

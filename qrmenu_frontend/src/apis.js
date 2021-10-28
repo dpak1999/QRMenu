@@ -103,3 +103,7 @@ export const removeCategory = (id, token) => {
 export const removeMenuItem = (id, token) => {
   return request(`/api/menu_items/${id}`, { token, method: 'DELETE' });
 };
+
+export const updatePlace = (id, data, token) => {
+  return request(`/api/places/${id}`, { data, token, method: 'PATCH' });
+};
