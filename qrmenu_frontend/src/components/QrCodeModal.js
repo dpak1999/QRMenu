@@ -1,8 +1,8 @@
 /** @format */
 
 import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
-import QRCodeReact from 'qrcode.react';
 import styled from 'styled-components';
+import QRCode from './QRCode';
 
 const OperationButton = styled(Button)`
   width: 30px;
@@ -44,10 +44,7 @@ const QrCodeModal = ({ show, onHide, place, onUpdatePlace }) => {
               (_, i) => i + 1
             ).map((table) => (
               <Col key={table} lg={4} md={6} className="mb-4">
-                <QRCodeReact
-                  value={`${window.location.origin}/menu/${place.id}/${table}`}
-                  size={200}
-                />
+                <QRCode table={table} placeId={place.id} />
               </Col>
             ))}
           </Row>
