@@ -7,6 +7,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { fetchPlace } from '../apis';
 import MenuList from '../components/MenuList';
+import ShoppingCart from '../components/ShoppingCart';
 
 const OrderButton = styled(Button)`
   position: fixed;
@@ -42,6 +43,19 @@ const Menu = () => {
     });
   };
 
+  const onRemoveItemFromShoppingCart = (item) => {
+    if (totalQuantity === 1) {
+      setShowShoppingCart(false);
+    }
+    setShoppingCart({
+      ...shoppingCart,
+      [item.id]: {
+        ...item,
+        quantity: (shoppingCart[item.id]?.quantity || 0) - 1,
+      },
+    });
+  };
+
   const totalQuantity = useMemo(
     () =>
       Object.keys(shoppingCart)
@@ -58,11 +72,21 @@ const Menu = () => {
     <Container className="mt-5 mb-5">
       <Row className="justify-content-center">
         <Col lg={8}>
-          <MenuList
-            place={place}
-            shoppingCart={shoppingCart}
-            onOrder={onAddItemToShoppingCart}
-          />
+          {showShoppingCart ? (
+            <ShoppingCart
+              items={Object.keys(shoppingCart)
+                .map((key) => shoppingCart[key])
+                .filter((item) => item.quantity > 0)}
+              onAdd={onAddItemToShoppingCart}
+              onRemove={onRemoveItemFromShoppingCart}
+            />
+          ) : (
+            <MenuList
+              place={place}
+              shoppingCart={shoppingCart}
+              onOrder={onAddItemToShoppingCart}
+            />
+          )}
         </Col>
       </Row>
 
