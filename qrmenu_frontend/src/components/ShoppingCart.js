@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { Card } from 'react-bootstrap';
 import OperationButton from './OperationButton';
+import PaymentForm from '../components/PaymentForm';
 
 const ShoppingCart = ({ items, onAdd, onRemove }) => {
   const totalPrice = useMemo(
@@ -56,6 +57,10 @@ const ShoppingCart = ({ items, onAdd, onRemove }) => {
               <strong>₹ {totalPrice}</strong>
             </h5>
           </div>
+
+          <hr className="mb-4" />
+
+          <PaymentForm />
         </Card.Body>
       </Card>
     </>
