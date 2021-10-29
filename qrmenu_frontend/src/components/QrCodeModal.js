@@ -1,16 +1,8 @@
 /** @format */
 
-import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
-import styled from 'styled-components';
+import { Col, Container, Modal, Row } from 'react-bootstrap';
+import OperationButton from './OperationButton';
 import QRCode from './QRCode';
-
-const OperationButton = styled(Button)`
-  width: 30px;
-  height: 30px;
-  margin: 0 10px;
-  font-size: 20px;
-  line-height: 18px;
-`;
 
 const QrCodeModal = ({ show, onHide, place, onUpdatePlace }) => {
   return (
