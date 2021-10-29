@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.utils import timezone
 
 
 class Place(models.Model):
@@ -34,3 +35,24 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return "{}/{}".format(self.category, self.name)
+
+
+class Order(models.Model):
+    PROCESSING_STATUS = "processing"
+    COMPLETED_STATUS = "completed"
+    STATUSES = (
+        (PROCESSING_STATUS, "Processing"),
+        (COMPLETED_STATUS, "Completed")
+    )
+
+    place = models.ForeignKey(Place, on_delete=CASCADE)
+    table = models.CharField(max_length=3)
+    detail = models.TextField()
+    payment_intent = models.CharField(max_length=255)
+    amount = models.IntegerField()
+    status = models.CharField(
+        max_length=20, choices=STATUSES, default=PROCESSING_STATUS)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return "{}/{}/Rs {}".format(self.place, self.table, self.amount)
