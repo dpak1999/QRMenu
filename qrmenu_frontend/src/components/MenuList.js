@@ -11,7 +11,7 @@ const Place = styled.div`
   }
 `;
 
-const MenuList = ({ place }) => {
+const MenuList = ({ place, shoppingCart, onOrder }) => {
   return (
     <>
       <Place>
@@ -32,7 +32,14 @@ const MenuList = ({ place }) => {
             {category.menu_items
               .filter((i) => i.is_available)
               .map((i) => (
-                <MenuItem key={i.id} item={i} />
+                <MenuItem
+                  key={i.id}
+                  item={{
+                    ...i,
+                    quantity: shoppingCart[i.id]?.quantity,
+                  }}
+                  onOrder={onOrder}
+                />
               ))}
           </div>
         ))}
