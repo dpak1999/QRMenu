@@ -64,6 +64,11 @@ const Menu = () => {
     [shoppingCart]
   );
 
+  const onPaymentDone = () => {
+    setShoppingCart({});
+    setShowShoppingCart(false);
+  };
+
   useEffect(() => {
     onFetchPlace();
   }, []);
@@ -79,6 +84,7 @@ const Menu = () => {
                 .filter((item) => item.quantity > 0)}
               onAdd={onAddItemToShoppingCart}
               onRemove={onRemoveItemFromShoppingCart}
+              onPaymentDone={onPaymentDone}
             />
           ) : (
             <MenuList

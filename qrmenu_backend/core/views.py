@@ -62,7 +62,7 @@ def create_payment_intent(request):
         order = models.Order.objects.create(
             place_id=data["place"],
             table=data["table"],
-            details=json.dumps(data["detail"]),
+            detail=json.dumps(data["detail"]),
             amount=data["amount"],
             payment_intent=intent["id"],
         )

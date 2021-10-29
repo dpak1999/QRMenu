@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   CardElement,
@@ -11,11 +11,16 @@ import {
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import { createPaymentIntent } from '../apis';
 
-const PaymentForm = () => {
+const PaymentForm = ({ amount, items, onDone }) => {
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+
+  const auth = useContext(AuthContext);
+  const params = useParams();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,6 +28,29 @@ const PaymentForm = () => {
       type: 'card',
       card: elements.getElement(CardElement),
     });
+
+    if (!error) {
+      setLoading(true);
+      const res = await createPaymentIntent(
+        {
+          payment_method: paymentMethod,
+          amount,
+          place: params.id,
+          table: params.table,
+          detail: items,
+        },
+        auth.token
+      );
+
+      if (res?.success) {
+        toast(`Your order #${res.order} is getting ready`, { type: 'success' });
+        onDone();
+        setLoading(false);
+      } else if (res?.error) {
+        toast(res.error, { type: 'error' });
+        setLoading(false);
+      }
+    }
   };
 
   return (

@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap';
 import OperationButton from './OperationButton';
 import PaymentForm from '../components/PaymentForm';
 
-const ShoppingCart = ({ items, onAdd, onRemove }) => {
+const ShoppingCart = ({ items, onAdd, onRemove, onPaymentDone }) => {
   const totalPrice = useMemo(
     () => items.map((i) => i.quantity * i.price).reduce((a, b) => a + b, 0),
     [items]
@@ -60,7 +60,11 @@ const ShoppingCart = ({ items, onAdd, onRemove }) => {
 
           <hr className="mb-4" />
 
-          <PaymentForm />
+          <PaymentForm
+            amount={totalPrice}
+            items={items}
+            onDone={onPaymentDone}
+          />
         </Card.Body>
       </Card>
     </>
