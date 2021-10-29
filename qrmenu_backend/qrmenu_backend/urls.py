@@ -15,4 +15,7 @@ urlpatterns = [
 
     path("api/menu_items/", views.MenuItemList .as_view()),
     path("api/menu_items/<pk>", views.MenuItemDetail .as_view()),
+
+    path("api/create_payment_intent/", views.create_payment_intent),
+
 ]
