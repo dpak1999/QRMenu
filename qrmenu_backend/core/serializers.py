@@ -29,3 +29,9 @@ class PlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Place
         fields = ("id", "name", "image")
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = "__all__"

@@ -77,3 +77,16 @@ def create_payment_intent(request):
             "success": False,
             "error": str(e),
         })
+
+
+class OrderList(generics.ListAPIView):
+    serializer_class = serializers.OrderSerializer
+
+    def get_queryset(self):
+        return models.Order.objects.filter(place__owner_id=self.request.user.id, place_id=self.request.GET.get("place"))
+
+
+class OrderDetail(generics.UpdateAPIView):
+    permission_classes = [permissions.PlaceOwnerOrReadOnly]
+    serializer_class = serializers.OrderSerializer
+    queryset = models.Order.objects.all()
