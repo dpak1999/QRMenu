@@ -7,6 +7,7 @@ import { IoMdArrowBack } from 'react-icons/io';
 import { fetchOrders } from '../apis';
 import AuthContext from '../context/AuthContext';
 import MainLayout from '../layouts/MainLayout';
+import Order from '../components/Order';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -27,6 +28,10 @@ const Orders = () => {
 
   useEffect(() => {
     onFetchOrders();
+    const interval = setInterval(() => {
+      onFetchOrders();
+    }, 2000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -42,7 +47,7 @@ const Orders = () => {
       <Row className="justify-content-center">
         {orders?.map((order) => (
           <Col key={order.id} lg={8}>
-            {order.detail}
+            <Order order={order} />
           </Col>
         ))}
       </Row>

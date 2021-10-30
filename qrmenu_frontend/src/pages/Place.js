@@ -3,6 +3,7 @@
 import { useEffect, useContext, useState } from 'react';
 import { IoMdArrowBack } from 'react-icons/io';
 import { AiOutlineDelete, AiOutlineQrcode } from 'react-icons/ai';
+import { RiFileList3Line } from 'react-icons/ri';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -108,6 +109,10 @@ const Place = () => {
 
             <Button variant="link" onClick={showQrModal}>
               <AiOutlineQrcode size={25} />
+            </Button>
+
+            <Button variant="link" href={`/places/${params.id}/orders`}>
+              <RiFileList3Line size={25} />
             </Button>
           </div>
         </Col>
