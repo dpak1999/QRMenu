@@ -3,6 +3,7 @@ import stripe
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.shortcuts import render
 from rest_framework import generics
 from . import models, serializers, permissions
 
@@ -43,6 +44,10 @@ class MenuItemDetail(generics.UpdateAPIView, generics.DestroyAPIView):
     permission_classes = [permissions.PlaceOwnerOrReadOnly]
     serializer_class = serializers.MenuItemSerializer
     queryset = models.MenuItem.objects.all()
+
+
+def home(request):
+    return render(request, "index.html")
 
 
 stripe.api_key = settings.STRIPE_API_SECRET_KEY

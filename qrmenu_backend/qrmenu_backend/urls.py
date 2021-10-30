@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from core import views
 
 urlpatterns = [
@@ -20,4 +20,6 @@ urlpatterns = [
 
     path("api/orders/", views.OrderList.as_view()),
     path("api/orders/<pk>", views.OrderDetail.as_view()),
+
+    re_path("", views.home)
 ]
