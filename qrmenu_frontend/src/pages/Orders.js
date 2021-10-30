@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { useParams, useHistory } from 'react-router-dom';
 import { IoMdArrowBack } from 'react-icons/io';
-import { fetchOrders } from '../apis';
+import { completeOrder, fetchOrders } from '../apis';
 import AuthContext from '../context/AuthContext';
 import MainLayout from '../layouts/MainLayout';
 import Order from '../components/Order';
@@ -23,6 +23,19 @@ const Orders = () => {
 
     if (res) {
       setOrders(res);
+    }
+  };
+
+  const onCompleteOrder = async (orderId) => {
+    const res = await completeOrder(
+      orderId,
+      {
+        status: 'completed',
+      },
+      auth.token
+    );
+
+    if (res) {
     }
   };
 
@@ -45,11 +58,16 @@ const Orders = () => {
       </div>
 
       <Row className="justify-content-center">
-        {orders?.map((order) => (
-          <Col key={order.id} lg={8}>
-            <Order order={order} />
-          </Col>
-        ))}
+        {orders
+          ?.filter((order) => order.status === 'processing')
+          ?.map((order) => (
+            <Col key={order.id} lg={8}>
+              <Order
+                order={order}
+                onComplete={() => onCompleteOrder(order.id)}
+              />
+            </Col>
+          ))}
       </Row>
     </MainLayout>
   );

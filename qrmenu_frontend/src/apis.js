@@ -119,3 +119,7 @@ export const createPaymentIntent = (data, token) => {
 export const fetchOrders = (placeId, token) => {
   return request(`/api/orders/?place=${placeId}`, { token });
 };
+
+export const completeOrder = (orderId, data, token) => {
+  return request(`/api/orders/${orderId}`, { data, token, method: 'PATCH' });
+};
