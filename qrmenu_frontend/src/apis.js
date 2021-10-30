@@ -54,3 +54,72 @@ export const register = (username, password) => {
     method: 'POST',
   });
 };
+
+export const fetchPlaces = (token) => {
+  return request('/api/places', { token });
+};
+
+export const addPlace = (data, token) => {
+  return request('/api/places/', { data, token, method: 'POST' });
+};
+
+export const uploadImage = (image) => {
+  const formData = new FormData();
+  formData.append('file', image);
+  formData.append('upload_preset', 'qr_menu');
+
+  return fetch('https://api.cloudinary.com/v1_1/snazzycave/image/upload', {
+    method: 'POST',
+    body: formData,
+  }).then((response) => {
+    return response.json();
+  });
+};
+
+export const fetchPlace = (id, token) => {
+  return request(`/api/places/${id}`, { token });
+};
+
+export const addCategory = (data, token) => {
+  return request('/api/categories/', { data, token, method: 'POST' });
+};
+
+export const addMenuItems = (data, token) => {
+  return request('/api/menu_items/', { data, token, method: 'POST' });
+};
+
+export const updateMenuItem = (id, data, token) => {
+  return request(`/api/menu_items/${id}`, { data, token, method: 'PATCH' });
+};
+
+export const removePlace = (id, token) => {
+  return request(`/api/places/${id}`, { token, method: 'DELETE' });
+};
+
+export const removeCategory = (id, token) => {
+  return request(`/api/categories/${id}`, { token, method: 'DELETE' });
+};
+
+export const removeMenuItem = (id, token) => {
+  return request(`/api/menu_items/${id}`, { token, method: 'DELETE' });
+};
+
+export const updatePlace = (id, data, token) => {
+  return request(`/api/places/${id}`, { data, token, method: 'PATCH' });
+};
+
+export const createPaymentIntent = (data, token) => {
+  return request('/api/create_payment_intent/', {
+    data,
+    token,
+    method: 'POST',
+  });
+};
+
+export const fetchOrders = (placeId, token) => {
+  return request(`/api/orders/?place=${placeId}`, { token });
+};
+
+export const completeOrder = (orderId, data, token) => {
+  return request(`/api/orders/${orderId}`, { data, token, method: 'PATCH' });
+};
