@@ -115,3 +115,7 @@ export const createPaymentIntent = (data, token) => {
     method: 'POST',
   });
 };
+
+export const fetchOrders = (placeId, token) => {
+  return request(`/api/orders/?place=${placeId}`, { token });
+};
